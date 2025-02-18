@@ -51,12 +51,14 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
     info = plan_chain.invoke({
         "question": question, "chat_history": info, "tools": toolkit
     })
-
-    info = info.split('json')[-1]
     print(info)
+    print('-'*60)
+    info = info.split('json')[-1].split('```')[0]
+    info = json.loads(info)
+    print(type(info), info)
     print('-'*60)
 
 if __name__ == '__main__':
     llm = deepseek_r1_14b()
-    question = '在cifar10上对图片分类模型Resnet-18进行攻击并生成对抗样本，攻击算法为FGSM。'
+    question = '在cifar10上对图片分类模型wresnet进行攻击并生成对抗样本，攻击算法为FGSM。'
     route(question, "openai", llm, openai_plan_prompt, True)
