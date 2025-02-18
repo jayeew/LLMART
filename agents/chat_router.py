@@ -17,6 +17,7 @@ from tools.algorithm_tools import white_box_attack_tools, black_box_attack_tools
 from tools.dataset_tools import dataload_tools
 from tools.target_model_tools import image_classification_tools, object_detection_tools
 from tools.task_tools import model_attack_tools, model_performance_tools, model_robustness_tools
+from utils.registry import registry
 
 toolkits_dict = {
     'FGSM': white_box_attack_tools,
@@ -57,6 +58,12 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
     info = json.loads(info)
     print(type(info), info)
     print('-'*60)
+
+    # dataset
+    
+    # target model
+    # attack algorithm
+    # task
 
 if __name__ == '__main__':
     llm = deepseek_r1_14b()
