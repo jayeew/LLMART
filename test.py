@@ -23,7 +23,7 @@ if __name__=="__main__":
     # myfunc_algorithm = registry.get_attack('fgsm_tool')
     # attacker = myfunc_algorithm('resnet18')
     # print(type(attacker))
-
+    print('test')
     info = {'cifar10_tool': {'batch_size': 32, 'data_path': '../data/cifar10/'}, 'image_classification_modeltool': {'target_model_name': 'Resnet-18'}, 'fgsm_tool': {'target_model_name': 'Resnet-18', 'epsilon': 0.1}, 'attack_tool': {'target_model_name': 'Resnet-18', 'target_model_type': 'Image Classification', 'dataset': 'CIFAR10', 'attack_algorithm': 'FGSM'}}
     print(type(info))
     if 'cifar10_tool' in info.keys():
