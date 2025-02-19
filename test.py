@@ -30,4 +30,4 @@ if __name__=="__main__":
         data_loader = myfunc_data(**info['cifar10_tool'])
         print(type(data_loader))
 
-    print('本地修改测试')
+    print('远端修改测试')
