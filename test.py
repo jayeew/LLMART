@@ -29,4 +29,5 @@ if __name__=="__main__":
         myfunc_data = registry.get_data('cifar10_tool')
         data_loader = myfunc_data(**info['cifar10_tool'])
         print(type(data_loader))
-    print('远端修改')
+
+    print('本地修改测试')
