@@ -18,12 +18,17 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 class FGSMParamSchema(BaseModel):
     # model_config = ConfigDict(arbitrary_types_allowed=True)
-    target_model: str = Field(None, title="target_model", description="被FGSM攻击的目标模型的名称.")
+    target_model_name: str = Field(None, title="target_model_name", description="被FGSM攻击的目标模型的名称.")
+
+def fgsm_getter(target_model_name:str, **kwargs) -> FGSM:
+    '''The function to get fgsm tool.'''
+    model = timm.create_model(target_model_name, pretrained=True)
+    return FGSM(model, device)
 
 @registry.register_attack("fgsm_tool")
-def fgsm_getter(target_model:str) -> FGSM:
-    '''The function to get fgsm tool.'''
-    model = timm.create_model(target_model, pretrained=True)
+def fgsm_loader(target_model:torch.nn.Module) -> FGSM:
+    '''The function to load fgsm tool from local.'''
+    model = target_model
     return FGSM(model, device)
 
 fgsm_tool = StructuredTool(

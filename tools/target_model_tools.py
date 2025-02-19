@@ -22,7 +22,7 @@ class ModelParamSchema(BaseModel):
 
 @registry.register_model("image_classification_modeltool")
 def image_classification_getter(model_name:str) -> str:
-    '''The function to get image classification model from timm.'''
+    '''The function to get image classification model.'''
     model = CifarController(model_name).to(device)
     return model
 

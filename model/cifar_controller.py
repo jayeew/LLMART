@@ -43,7 +43,7 @@ class CifarController(torch.nn.Module):
         
         self.url = cifar_model_zoo[self.model_name]['url']
         self.pt_name = cifar_model_zoo[self.model_name]['pt']
-        self.model_path = 'E:\\tmp\\cifarmodel'
+        self.model_path = '..\\datasets\\cifarmodel'
         gdown.download(self.url, self.model_path, quiet=False, resume=True)
         self.load()
         

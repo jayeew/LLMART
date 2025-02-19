@@ -6,6 +6,7 @@ class Registry:
         "models": {},
         "datasets": {},
         "algorithms": {},
+        "tasks": {},
     }
 
     @classmethod
@@ -74,6 +75,35 @@ class Registry:
             return datasets
 
         return wrap
+    
+    @classmethod
+    def register_task(cls, name=None, force=False):
+        r"""Register a task to registry with key 'name'
+
+        Args:
+            name (str): Key with which the attacker will be registered.
+            force (bool): Whether to register when the name has already existed in registry.
+        """
+
+        def wrap(tasks):
+            registerd_name = tasks.__name__ if name is None else name
+            if registerd_name in cls.mapping["tasks"] and not force:
+                raise KeyError(
+                    "Name '{}' already registered for {}.".format(
+                        registerd_name, cls.mapping["tasks"][registerd_name]
+                    )
+                )
+            cls.mapping["tasks"][registerd_name] = tasks
+            return tasks
+
+        return wrap
+    
+    @classmethod
+    def get_task(cls, name):
+        '''Get a task by given name.'''
+        if cls.mapping["tasks"].get(name, None):
+            return cls.mapping["tasks"].get(name)
+        raise KeyError(f'{name} is not registered!')
     
     @classmethod
     def get_data(cls, name):

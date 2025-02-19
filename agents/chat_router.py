@@ -59,11 +59,16 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
     print(type(info), info)
     print('-'*60)
 
+    infokeys = list(info.keys())
     # dataset
-    
+    dataloader = registry.get_data(infokeys[0])(**info[infokeys[0]])
     # target model
+    model = registry.get_model(infokeys[1])(**info[infokeys[1]])
     # attack algorithm
+    attacker = registry.get_attack(infokeys[2])(model)
     # task
+    clean_accuracy, robust_accuracy = registry.get_task(infokeys[3])(model, attacker, dataloader)
+    
 
 if __name__ == '__main__':
     llm = deepseek_r1_14b()
