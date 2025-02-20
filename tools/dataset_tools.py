@@ -14,11 +14,12 @@ from utils.registry import registry
 
 class DatasetParamSchema(BaseModel):
     batch_size: int = Field(32, title="batch_size", description="加载数据集的批次大小")
-    dataset_path: str = Field("..\\datasets\\cifar10", title="dataset_path", description="数据集的存储路径")
+    # dataset_path: str = Field("..\\datasets\\cifar10", title="dataset_path", description="数据集的存储路径")
 
 @registry.register_data('cifar10_tool')
-def cifar10_loader(batch_size: int = 32, dataset_path: str = "..\\datasets\\cifar10") -> DataLoader: 
+def cifar10_loader(batch_size: int = 32, **kwargs) -> DataLoader: 
     '''The function to create cifar10 dataloader.'''
+    dataset_path: str = "..\\datasets\\cifar10"
     transform = transforms.Compose([transforms.ToTensor()])
     cifar = CIFAR10(root=dataset_path, train=False, download=True, transform=transform)
     data_loader = DataLoader(cifar, batch_size=batch_size, shuffle=False, num_workers=1, pin_memory= False, drop_last= False)
@@ -28,7 +29,7 @@ def cifar10_loader(batch_size: int = 32, dataset_path: str = "..\\datasets\\cifa
 
 cifar10_tool = StructuredTool(
     name = "cifar10_tool",
-    description = "根据加载数据集的批次大小和数据集的存储路径创建cifar10数据集加载器",
+    description = "根据加载数据集的批次大小创建cifar10数据集加载器",
     args_schema = DatasetParamSchema,
     func = cifar10_loader
 )

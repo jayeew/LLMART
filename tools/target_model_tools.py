@@ -23,7 +23,7 @@ class ModelParamSchema(BaseModel):
 @registry.register_model("image_classification_modeltool")
 def image_classification_getter(model_name:str) -> str:
     '''The function to get image classification model.'''
-    model = CifarController(model_name).to(device)
+    model = CifarController(model_name.lower()).to(device)
     return model
 
 def image_classification_loader(model_name:str) -> torch.nn.Module:

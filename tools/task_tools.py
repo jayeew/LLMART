@@ -23,7 +23,7 @@ class AttackParamSchema(BaseModel):
     dataset: str = Field(None, title="dataset", description="用于对目标模型攻击或生成对抗样本的数据集.")
     attack_algorithm: str = Field(None, title="attack_algorithm", description="攻击目标模型时用到的攻击算法.")
 
-def run_attack(target_model_name:str, target_model_type:str, dataset:str, attack_algorithm:str) -> str:
+def run_attack(target_model_name:str, dataset:str, attack_algorithm:str) -> str:
     print("正在攻击中...")
     # return "攻击成功！生成的对抗样本已经存储在本地路径: /path/to/adversarial_sample"
     return "攻击成功！"

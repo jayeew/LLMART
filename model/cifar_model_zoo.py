@@ -12,7 +12,7 @@ def get_url(ckpt_name):
 
 cifar_model_zoo={
     'at_he': {'model': 'wresnet34_10_fn', 'mean': MEAN_CIFAR, 'std': STD_CIFAR, 'url': get_url('model-wideres-pgdHE-wide10.pt'), 'pt': 'model-wideres-pgdHE-wide10.pt'},
-    'awp': {'model': 'wresnet28_10', 'mean': MEAN_ZERO, 'std': STA_ONE, 'url': get_url('RST-AWP_cifar10_linf_wrn28-10.pt'), 'pt': 'RST-AWP_cifar10_linf_wrn28-10.pt'},
+    'wresnet': {'model': 'wresnet28_10', 'mean': MEAN_ZERO, 'std': STA_ONE, 'url': get_url('RST-AWP_cifar10_linf_wrn28-10.pt'), 'pt': 'RST-AWP_cifar10_linf_wrn28-10.pt'},
     'fast_at': {'model': 'preact_resnet18', 'mean': MEAN_CIFAR, 'std': STD_CIFAR, 'url': get_url('cifar_model_weights_30_epochs.pth'), 'pt': 'cifar_model_weights_30_epochs.pth'},
     'featurescatter': {'model': 'wresnet28_10', 'mean': MEAN_MID, 'std': STD_MID, 'url': get_url('checkpoint-199-ipot'), 'pt': 'checkpoint-199-ipot'},
     'hydra': {'model': 'wresnet28_10', 'mean': MEAN_ZERO, 'std': STA_ONE, 'url': get_url('model_best_dense.pth.tar'), 'pt': 'model_best_dense.pth.tar'},

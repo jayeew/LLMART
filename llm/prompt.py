@@ -28,7 +28,7 @@ attack_algorithm: FGSM选择'FGSM'，PGD选择'PGD'，CW选择'CW'；
 -样例1："在ImageNet上对图片分类模型Resnet-18进行攻击并生成对抗样本。"为解决这个需求需要充分挖掘潜在信息，首先用户指定了目标模型为Resnet-18，并指明其类型为图像分类模型，其次用户明确指定了任务为攻击并生成对抗样本，最后用户提到了数据集ImageNet，因此对抗样本要基于该数据集生成。
 所以信息选择结果为：target_model_name: Resnet-18, target_model_type: Image Classification, task: Attack, dataset: ImageNet, attack_algorithm: None。
 -样例2："攻击检测模型ARIS"解决这个需求需要确定目标攻击模型为ARIS，根据'检测'二字推测ARIS模型为目标检测模型，但是用户没有明确指定攻击算法，也没有明确指定数据集。
-所以信息选择结果为：target_model_name: ARIS, target_model_type: Object Detection, task: Attack, dataset: None, attack_algorith  m: None。
+所以信息选择结果为：target_model_name: ARIS, target_model_type: Object Detection, task: Attack, dataset: None, attack_algorithm: None。
 
 # 用户需求
 ```{question}```
@@ -67,9 +67,10 @@ openai_plan_prompt="""
 解决用户会提出的模型安全需求{question}，特别注意：
 1.你可以参考如下历史信息，{chat_history}，其中包含对用户需求进行初步分析后提取或补全得到的关键信息，这些信息与工具函数的参数有关；
 2.你可以使用如下工具函数，{tools}，所有的工具函数不依赖特定的框架，你可以假设所有的工具调用都发生在虚拟环境中，而无需实际调用它们；
-3.在确定传递给工具的参数时，参数名称必须与{tools}保持一致，比如调用dataload_tools时需要传参batch_size和dataset_path，调用image_classification_modeltool时需要传参model_name；
+3.在确定传递给工具的参数时，参数名称必须与{tools}保持一致，比如调用dataload_tools时需要传参batch_size，调用image_classification_modeltool时需要传参model_name，调用attack_tool时需要传参target_model_name:str, dataset:str, attack_algorithm:str；
+4.对于一个攻击或测评任务，其一般流程为：加载数据集 -> 加载目标模型 -> 加载攻击工具 -> 执行攻击或测评任务；
 
-# 输出
+# 输出格式
 你需要输出工具函数调用的顺序和相应参数，按照以下格式输出，不输出额外字符：
 {{
 '工具函数名称'：{{'参数1':'参数1的值'，'参数2':'参数2的值'，'参数3':'参数3的值'}},

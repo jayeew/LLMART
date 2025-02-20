@@ -11,7 +11,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from llm.chain import router_chain
 from llm.llm_zoo import qwen2, deepseek_r1_7b, deepseek_r1_14b
-from llm.prompt import openai_plan_prompt
+from llm.prompt import openai_plan_prompt, openai_summary_prompt
 from agents.creat_agent import create_agent
 from tools.algorithm_tools import white_box_attack_tools, black_box_attack_tools
 from tools.dataset_tools import dataload_tools
@@ -32,11 +32,11 @@ toolkits_dict = {
 }
 
 def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debug:bool) -> str:
-    info = router_chain.invoke({
+    reasoning = router_chain.invoke({
         "question": question
     })
-    print(info)
-    info = info.split('最终结果:')[-1]
+    print(reasoning)
+    info = reasoning.split('最终结果:')[-1]
     print('-'*60)
     toolkit = []
     for kind in ['FGSM', 'PGD', 'ImageNet', 'CIFAR10', 'Image Classification', 'Object Detection', 
@@ -49,12 +49,12 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
         llm |
         StrOutputParser()
     )
-    info = plan_chain.invoke({
+    planning = plan_chain.invoke({
         "question": question, "chat_history": info, "tools": toolkit
     })
-    print(info)
+    print(planning)
     print('-'*60)
-    info = info.split('json')[-1].split('```')[0]
+    info = planning.split('json')[-1].split('```')[0]
     info = json.loads(info)
     print(type(info), info)
     print('-'*60)
@@ -68,6 +68,17 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
     attacker = registry.get_attack(infokeys[2])(model)
     # task
     clean_accuracy, robust_accuracy = registry.get_task(infokeys[3])(model, attacker, dataloader)
+
+    summary_chain = (
+        PromptTemplate.from_template(openai_summary_prompt) |
+        llm |
+        StrOutputParser()
+    )
+    summarizing = summary_chain.invoke({
+        "question": question, "chat_history": reasoning, "tool_history": planning, "tool_result": clean_accuracy+robust_accuracy
+    })
+    print('-'*40, '最终答案', '-'*40)
+    print(summarizing)
     
 
 if __name__ == '__main__':
