@@ -80,6 +80,7 @@ def route(question:str, agent_type:str, llm:ChatOllama, system_prompt: str, debu
     print('-'*40, '最终答案', '-'*40)
     print(summarizing)
     
+    return summarizing
 
 if __name__ == '__main__':
     llm = deepseek_r1_14b()

@@ -33,10 +33,10 @@ if __name__ == '__main__':
         current_start_time = time.time()
         try:
             # question = input()
-            question = '在cifar10上对图片分类模型Resnet-18进行攻击并生成对抗样本，攻击算法为FGSM。'
+            question = ''
             print(question)
             response = answer(question, "openai", llm, openai_plan_prompt, True)
-            # print(response)
+            print(response)
             break
         except ValueError as e:
             print(f'非法输入：{e}')
