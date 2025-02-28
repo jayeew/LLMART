@@ -13,6 +13,7 @@ import tools.task_tools
 from utils.registry import registry
 
 if __name__=="__main__":
+    # 测试
     # myfunc_data = registry.get_data('cifar10_tool')
     # data_loader = myfunc_data(32, "E:\\tmp\\cifar10")
     # print(type(data_loader))
